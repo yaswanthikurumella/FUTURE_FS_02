@@ -1,70 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Lead Management System</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini CRM</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>Lead Management System</h1>
-<div class="dashboard">
-    <div class="card">
-        <h3>Total Leads</h3>
-        <p id="totalLeads">0</p>
+
+<div class="container">
+
+    <div class="sidebar">
+        <div class="logo">
+            <h2>✨ Mini CRM</h2>
+            <p>Manage Clients Smartly</p>
+        </div>
+
+        <ul>
+            <li><i class="fas fa-chart-line"></i> Dashboard</li>
+            <li class="active"><i class="fas fa-users"></i> Leads</li>
+            <li><i class="fas fa-gear"></i> Settings</li>
+        </ul>
     </div>
 
-    <div class="card">
-        <h3>New</h3>
-        <p id="newLeads">0</p>
+    <div class="main">
+
+        <div class="topbar">
+            <div>
+                <h1>Welcome Back 👋</h1>
+                <p>Track and manage your leads professionally.</p>
+            </div>
+
+            <div class="search-box">
+                <input type="text" placeholder="Search leads...">
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="card">
+                <h3>Total Leads</h3>
+                <p id="totalLeads">0</p>
+            </div>
+
+            <div class="card">
+                <h3>New</h3>
+                <p id="newLeads">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Contacted</h3>
+                <p id="contactedLeads">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Converted</h3>
+                <p id="convertedLeads">0</p>
+            </div>
+        </div>
+
+        <div class="form-section">
+
+            <h2>Lead Management</h2>
+
+            <form id="leadForm">
+
+                <input type="text" id="name" placeholder="Client Name" required>
+
+                <input type="email" id="email" placeholder="Email" required>
+
+                <select id="source">
+                    <option>Website</option>
+                    <option>Instagram</option>
+                    <option>LinkedIn</option>
+                </select>
+
+                <select id="status">
+                    <option>New</option>
+                    <option>Contacted</option>
+                    <option>Converted</option>
+                </select>
+
+                <textarea id="notes" placeholder="Notes"></textarea>
+
+                <button type="submit">Add Lead</button>
+
+            </form>
+        </div>
+
+        <div class="table-container">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Source</th>
+                        <th>Status</th>
+                        <th>Notes</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="leadTable">
+                </tbody>
+            </table>
+
+        </div>
+
     </div>
 
-    <div class="card">
-        <h3>Contacted</h3>
-        <p id="contactedLeads">0</p>
-    </div>
-
-    <div class="card">
-        <h3>Converted</h3>
-        <p id="convertedLeads">0</p>
-    </div>
 </div>
-
-<form id="leadForm">
-    <input type="text" id="name" placeholder="Enter Name" required>
-
-    <input type="email" id="email" placeholder="Enter Email" required>
-
-    <select id="source">
-        <option>Website</option>
-        <option>Instagram</option>
-        <option>LinkedIn</option>
-    </select>
-
-    <select id="status">
-        <option>New</option>
-        <option>Contacted</option>
-        <option>Converted</option>
-    </select>
-
-    <textarea id="notes" placeholder="Notes"></textarea>
-
-    <button type="submit">Add Lead</button>
-</form>
-
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Source</th>
-            <th>Status</th>
-           <th>Notes</th>
-           <th>Action</th>
-        </tr>
-    </thead>
-
-    <tbody id="leadTable">
-    </tbody>
-</table>
 
 <script src="script.js"></script>
 </body>
