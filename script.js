@@ -7,7 +7,7 @@ displayLeads();
 
 leadForm.addEventListener("submit", function(e) {
     e.preventDefault();
-
+    
     const lead = {
         name: document.getElementById("name").value,
         email: document.getElementById("email").value,
