@@ -73,7 +73,7 @@ function displayLeads() {
             <td>${lead.name}</td>
             <td>${lead.email}</td>
             <td>${lead.source}</td>
-            <td>${lead.status}</td>
+          <td><strong>${lead.status}</strong></td>
             <td>${lead.notes}</td>
             <td>
                 <button onclick="deleteLead(${index})">Delete</button>
