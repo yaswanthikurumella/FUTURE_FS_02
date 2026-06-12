@@ -1,4 +1,10 @@
-const leadForm = document.getElementById("leadForm");
+// 1. Initialize storage (PUT THIS FIRST)
+if (!localStorage.getItem("leads")) {
+    localStorage.setItem("leads", JSON.stringify([]));
+}
+
+// 2. Then load data
+let leads = JSON.parse(localStorage.getItem("leads")) || [];const leadForm = document.getElementById("leadForm");
 const leadTable = document.getElementById("leadTable");
 
 let leads = JSON.parse(localStorage.getItem("leads")) || [];
