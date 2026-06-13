@@ -1,117 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini CRM</title>
-<link rel="stylesheet" href="style.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>CRM Leads Manager</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 20px;
+      background: #f4f4f4;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      padding: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background: green;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    .delete {
+      background: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="container">
+<h2>CRM Lead Manager</h2>
 
-    <div class="sidebar">
-        <div class="logo">
-            <h2>✨ Mini CRM</h2>
-            <p>Manage Clients Smartly</p>
-        </div>
+<form id="leadForm">
+  <input type="text" id="name" placeholder="Name" required>
+  <input type="email" id="email" placeholder="Email" required>
+  <select id="source" required>
+    <option value="">Source</option>
+    <option value="Instagram">Instagram</option>
+    <option value="Website">Website</option>
+    <option value="Referral">Referral</option>
+  </select>
+  <button type="submit">Add Lead</button>
+</form>
 
-        <ul>
-            <li><i class="fas fa-chart-line"></i> Dashboard</li>
-            <li class="active"><i class="fas fa-users"></i> Leads</li>
-            <li><i class="fas fa-gear"></i> Settings</li>
-        </ul>
-    </div>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Source</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="leadTable"></tbody>
+</table>
 
-    <div class="main">
+<script>
+const leadForm = document.getElementById("leadForm");
+const leadTable = document.getElementById("leadTable");
 
-        <div class="topbar">
-            <div>
-                <h1>Welcome Back 👋</h1>
-                <p>Track and manage your leads professionally.</p>
-            </div>
+// ✅ SAFE LOAD (DO NOT overwrite storage)
+function getLeads() {
+  try {
+    const data = localStorage.getItem("leads");
+    return data ? JSON.parse(data) : [];
+  } catch (e) {
+    console.log("Storage error:", e);
+    return [];
+  }
+}
 
-            <div class="search-box">
-                <input type="text" placeholder="Search leads...">
-            </div>
-        </div>
+let leads = getLeads();
 
-        <div class="dashboard">
-            <div class="card">
-                <h3>Total Leads</h3>
-                <p id="totalLeads">0</p>
-            </div>
+// Render table
+function displayLeads() {
+  leadTable.innerHTML = "";
 
-            <div class="card">
-                <h3>New</h3>
-                <p id="newLeads">0</p>
-            </div>
+  leads.forEach((lead, index) => {
+    const row = document.createElement("tr");
 
-            <div class="card">
-                <h3>Contacted</h3>
-                <p id="contactedLeads">0</p>
-            </div>
+    row.innerHTML = `
+      <td>${lead.name}</td>
+      <td>${lead.email}</td>
+      <td>${lead.source}</td>
+      <td><button class="delete" onclick="deleteLead(${index})">Delete</button></td>
+    `;
 
-            <div class="card">
-                <h3>Converted</h3>
-                <p id="convertedLeads">0</p>
-            </div>
-        </div>
+    leadTable.appendChild(row);
+  });
 
-        <div class="form-section">
+  // ONLY read, NEVER reset storage here ❌
+}
 
-            <h2>Lead Management</h2>
+// Add lead
+leadForm.addEventListener("submit", function(e) {
+  e.preventDefault();
 
-            <form id="leadForm">
+  const newLead = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    source: document.getElementById("source").value
+  };
 
-                <input type="text" id="name" placeholder="Client Name" required>
+  leads.push(newLead);
 
-                <input type="email" id="email" placeholder="Email" required>
+  // ✅ Save ONLY when data changes
+  localStorage.setItem("leads", JSON.stringify(leads));
 
-                <select id="source">
-                    <option>Website</option>
-                    <option>Instagram</option>
-                    <option>LinkedIn</option>
-                </select>
+  leadForm.reset();
+  displayLeads();
+});
 
-                <select id="status">
-                    <option>New</option>
-                    <option>Contacted</option>
-                    <option>Converted</option>
-                </select>
+// Delete lead
+function deleteLead(index) {
+  leads.splice(index, 1);
 
-                <textarea id="notes" placeholder="Notes"></textarea>
+  // update storage
+  localStorage.setItem("leads", JSON.stringify(leads));
 
-                <button type="submit">Add Lead</button>
+  displayLeads();
+}
 
-            </form>
-        </div>
+// initial render
+displayLeads();
+</script>
 
-        <div class="table-container">
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Source</th>
-                        <th>Status</th>
-                        <th>Notes</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody id="leadTable">
-                </tbody>
-            </table>
-
-        </div>
-
-    </div>
-
-</div>
-
-<script src="script.js"></script>
 </body>
 </html>
